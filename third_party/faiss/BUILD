@@ -12,17 +12,17 @@ filegroup(
 )
 
 cmake(
-    name = "faiss_c_api",
-    lib_source = ":all_srcs",
+    name = "faiss_c",
     generate_args = [
         "-G Ninja",
         "-DFAISS_ENABLE_GPU=OFF",
         "-DFAISS_ENABLE_PYTHON=OFF",
-        "-DBUILD_TESTING=OFF",
-        "-DBUILD_SHARED_LIBS=OFF",
         "-DFAISS_ENABLE_C_API=ON",
+        "-DBUILD_TESTING=OFF",
         "-DCMAKE_BUILD_TYPE=Release",
-        "-DFAISS_OPT_LEVEL=avx2",
+        "-DFAISS_OPT_LEVEL=general",
     ],
-    out_static_libs = ["libfaiss.a"],
+    lib_source = ":all_srcs",
+    targets = ["faiss_c", "faiss"],
+    out_static_libs = ["libfaiss_c.a", "libfaiss.a"],
 )

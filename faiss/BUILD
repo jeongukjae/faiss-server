@@ -4,7 +4,7 @@ go_library(
     name = "faiss",
     srcs = ["faiss.go"],
     cdeps = [
-        "@com_github_facebookresearch_faiss//:faiss_c_api",
+        "@com_github_facebookresearch_faiss//:faiss_c",
     ],
     cgo = True,
     importpath = "github.com/jeongukjae/faiss-server/faiss",

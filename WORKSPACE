@@ -70,10 +70,12 @@ rules_proto_toolchains()
 # third party lib
 http_archive(
     name = "com_github_facebookresearch_faiss",
-    build_file = "//third_party:faiss.BUILD",
+    build_file = "//third_party/faiss:BUILD",
     strip_prefix = "faiss-1.7.1",
     sha256 = "7e53e763f4081f9fb329634bb51cecaad674b22f5ee56351d09b0fe21bbc4f72",
     url = "https://github.com/facebookresearch/faiss/archive/v1.7.1.zip",
+    patch_args = ["-p1"],
+    patches = ["//third_party/faiss:faiss.patch"],
 )
 
 http_archive(

@@ -1,0 +1,17 @@
+diff --git a/c_api/CMakeLists.txt b/c_api/CMakeLists.txt
+index 747ce50c..3d7f7c19 100644
+--- a/c_api/CMakeLists.txt
++++ b/c_api/CMakeLists.txt
+@@ -46,6 +46,12 @@ file(GLOB FAISS_C_API_HEADERS
+      "impl/*.h")
+
+ faiss_install_headers("${FAISS_C_API_HEADERS}" c_api)
++install(
++  TARGETS faiss_c
++  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/faiss/c_api/
++)
+
+ add_executable(example_c EXCLUDE_FROM_ALL example_c.c)
+ target_link_libraries(example_c PRIVATE faiss_c)
