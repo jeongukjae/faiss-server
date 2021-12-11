@@ -1,7 +1,7 @@
 package faiss
 
 /*
-#include "faiss/faiss_wrapper.h"
+#include "faiss/faiss_c_wrapper.h"
 */
 import "C"
 import "unsafe"

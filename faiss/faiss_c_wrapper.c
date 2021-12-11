@@ -1,4 +1,4 @@
-#include "faiss_wrapper.h"
+#include "faiss_c_wrapper.h"
 
 FaissIndex* loadIndex(const char* path) {
     FaissIndex* index = NULL;

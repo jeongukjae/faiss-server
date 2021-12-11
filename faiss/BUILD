@@ -5,8 +5,8 @@ package(default_visibility = ["//visibility:public"])
 cc_library(
     name = "faiss_wrapper",
     srcs = [
-        "faiss_wrapper.c",
-        "faiss_wrapper.h",
+        "faiss_c_wrapper.c",
+        "faiss_c_wrapper.h",
     ],
     linkopts = [
         "-lblas",
