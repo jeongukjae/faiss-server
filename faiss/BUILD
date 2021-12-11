@@ -1,5 +1,7 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
+package(default_visibility = ["//visibility:public"])
+
 cc_library(
     name = "faiss_wrapper",
     srcs = [
@@ -14,7 +16,6 @@ cc_library(
     deps = [
         "@com_github_facebookresearch_faiss//:faiss_c",
     ],
-    alwayslink = True,
 )
 
 go_library(
@@ -25,5 +26,4 @@ go_library(
     ],
     cgo = True,
     importpath = "github.com/jeongukjae/faiss-server/faiss",
-    visibility = ["//visibility:public"],
 )
