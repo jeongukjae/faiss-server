@@ -89,6 +89,7 @@ func main() {
 	if err != nil {
 		glog.Fatal(err)
 	}
+	defer index.Free()
 
 	if err = runGrpcServer(); err != nil {
 		glog.Fatal(err)

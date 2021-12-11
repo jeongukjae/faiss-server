@@ -35,6 +35,10 @@ func LoadIndex(path string) (*FaissIndex, error) {
 	}, nil
 }
 
+func (index *FaissIndex) Free() {
+	C.free(unsafe.Pointer(index.Index))
+}
+
 func (index *FaissIndex) GetMetadata() *FaissMetadata {
 	cMetadata := C.getMetadata(index.Index)
 	defer C.free(unsafe.Pointer(cMetadata))

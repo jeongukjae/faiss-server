@@ -11,7 +11,10 @@ typedef struct FaissMetadata {
     FaissMetricType metric_type;
 } FaissMetadata;
 
+// load index from filepath
 FaissIndex* loadIndex(const char*);
+
+// get metadata using index
 FaissMetadata* getMetadata(FaissIndex*);
 
 #endif  // __FAISS_WRAPPER_H__
