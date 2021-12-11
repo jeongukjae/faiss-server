@@ -70,8 +70,8 @@ rules_proto_toolchains()
 # rules python
 http_archive(
     name = "rules_python",
-    url = "https://github.com/bazelbuild/rules_python/releases/download/0.5.0/rules_python-0.5.0.tar.gz",
     sha256 = "cd6730ed53a002c56ce4e2f396ba3b3be262fd7cb68339f0377a45e8227fe332",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.5.0/rules_python-0.5.0.tar.gz",
 )
 
 # ===============
@@ -79,11 +79,11 @@ http_archive(
 http_archive(
     name = "com_github_facebookresearch_faiss",
     build_file = "//third_party/faiss:BUILD",
-    strip_prefix = "faiss-1.7.1",
-    sha256 = "7e53e763f4081f9fb329634bb51cecaad674b22f5ee56351d09b0fe21bbc4f72",
-    url = "https://github.com/facebookresearch/faiss/archive/v1.7.1.zip",
     patch_args = ["-p1"],
     patches = ["//third_party/faiss:faiss.patch"],
+    sha256 = "7e53e763f4081f9fb329634bb51cecaad674b22f5ee56351d09b0fe21bbc4f72",
+    strip_prefix = "faiss-1.7.1",
+    url = "https://github.com/facebookresearch/faiss/archive/v1.7.1.zip",
 )
 
 http_archive(
