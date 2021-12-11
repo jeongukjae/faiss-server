@@ -1,5 +1,6 @@
 load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 
 # gazelle:prefix github.com/jeongukjae/faiss-server
 gazelle(
@@ -19,6 +20,10 @@ gazelle(
         "-prune",
     ],
     command = "update-repos",
+)
+
+buildifier(
+    name = "buildifier",
 )
 
 go_binary(
