@@ -1,0 +1,1 @@
+build --linkopt=-L/usr/local/opt/llvm/lib

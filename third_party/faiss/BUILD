@@ -23,6 +23,12 @@ cmake(
         "-DFAISS_OPT_LEVEL=general",
     ],
     lib_source = ":all_srcs",
-    targets = ["faiss_c", "faiss"],
-    out_static_libs = ["libfaiss_c.a", "libfaiss.a"],
+    out_static_libs = [
+        "libfaiss_c.a",
+        "libfaiss.a",
+    ],
+    targets = [
+        "faiss_c",
+        "faiss",
+    ],
 )
