@@ -6,15 +6,32 @@ package faiss_server.service;
 
 import "google/api/annotations.proto";
 
-message StringMessage {
-    string value = 1;
+message EmptyMessage {
 }
 
-service FaissServer {
-    rpc Echo(StringMessage) returns (StringMessage) {
+message GetMetadataResponse {
+    enum MetricType {
+        METRIC_INNER_PRODUCT = 0;
+        METRIC_L2 = 1;
+        METRIC_L1 = 2;
+        METRIC_Linf = 3;
+        METRIC_Lp = 4;
+
+        METRIC_Canberra = 20;
+        METRIC_BrayCurtis = 21;
+        METRIC_JensenShannon = 22;
+    }
+
+    string index_name = 1;
+    int32 dimension = 2;
+    int32 ntotal = 3;
+    MetricType metric_type = 4;
+}
+
+service Faiss {
+    rpc GetMetadata(EmptyMessage) returns (GetMetadataResponse) {
         option (google.api.http) = {
-            post: "/v1/example/echo"
-            body: "*"
+            get: "/v1/metadata"
         };
     }
 }

@@ -38,9 +38,11 @@ go_library(
     importpath = "github.com/jeongukjae/faiss-server",
     visibility = ["//visibility:private"],
     deps = [
+        "//faiss",
         "//protos/faiss_server:service",
         "@com_github_golang_glog//:glog",
         "@com_github_grpc_ecosystem_grpc_gateway_v2//runtime",
+        "@com_github_pkg_errors//:errors",
         "@org_golang_google_grpc//:go_default_library",
     ],
 )

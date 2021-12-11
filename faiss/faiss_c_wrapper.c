@@ -7,3 +7,14 @@ FaissIndex* loadIndex(const char* path) {
     }
     return index;
 }
+
+FaissMetadata* getMetadata(FaissIndex* index) {
+    FaissMetadata *metadata;
+    metadata = malloc(sizeof(FaissMetadata));
+
+    metadata->dimension = faiss_Index_d(index);
+    metadata->ntotal = faiss_Index_ntotal(index);
+    metadata->metric_type = faiss_Index_metric_type(index);
+
+    return metadata;
+}
