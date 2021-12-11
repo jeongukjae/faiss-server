@@ -9,7 +9,7 @@ cc_binary(
         "-llapack",
         "-lomp",
     ],
-    deps = ["@com_github_facebookresearch_faiss//:faiss_c",],
+    deps = ["@com_github_facebookresearch_faiss//:faiss_c"],
 )
 
 filegroup(

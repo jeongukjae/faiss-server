@@ -3,10 +3,11 @@
 ## Development
 
 ```bash
-# update dependencies
+# update dependencies and lint
 bazel run //:gazelle
 bazel run //:gazelle-update-repos
 bazel run //:gazelle
+bazel run //:buildifier
 ```
 
 ```bash
