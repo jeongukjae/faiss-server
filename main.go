@@ -62,7 +62,6 @@ func runGrpcGateway() error {
 	defer cancel()
 
 	// Register gRPC server endpoint
-	// Note: Make sure the gRPC server is running properly and accessible
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 	glog.Info("Register grpc gateway server at ", *grpcServerEndpoint)
