@@ -53,7 +53,7 @@ func (s *faissServer) Search(ctx context.Context, in *gw.SearchRequest) (*gw.Sea
 		)
 	}
 
-	results := index.Search(in.NumVectors, in.Vectors, in.TopK)
+	results := index.Search(in.NumVectors, in.TopK, in.Vectors)
 	return &gw.SearchResponse{
 		Ids:       results.Ids,
 		Distances: results.Distances,

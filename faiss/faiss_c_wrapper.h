@@ -15,7 +15,7 @@ typedef struct SearchResults {
 // load index from filepath
 FaissIndex* loadIndex(const char*);
 
-SearchResults searchFaiss(const FaissIndex* index, int numVectors,
-                          const float* vectors, int topK);
+SearchResults searchFaiss(const FaissIndex* index, int numVectors, int topK,
+                          const float* vectors);
 
 #endif  // __FAISS_WRAPPER_H__

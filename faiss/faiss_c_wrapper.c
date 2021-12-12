@@ -8,8 +8,8 @@ FaissIndex* loadIndex(const char* path) {
   return index;
 }
 
-SearchResults searchFaiss(const FaissIndex* index, int numVectors,
-                          const float* vectors, int topK) {
+SearchResults searchFaiss(const FaissIndex* index, int numVectors, int topK,
+                          const float* vectors) {
   idx_t* ids = malloc(sizeof(idx_t) * topK * numVectors);
   float* distances = malloc(sizeof(float) * topK * numVectors);
 

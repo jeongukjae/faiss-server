@@ -48,7 +48,7 @@ func LoadIndex(path string) (*FaissIndex, error) {
 }
 
 func (index *FaissIndex) Free() {
-	C.free(unsafe.Pointer(index.Index))
+	C.faiss_Index_free(index.Index)
 }
 
 func (index *FaissIndex) GetNtotal() int32 {
@@ -56,8 +56,8 @@ func (index *FaissIndex) GetNtotal() int32 {
 	return Ntotal
 }
 
-func (index *FaissIndex) Search(numVectors int32, vectors []float32, topK int32) *SearchResult {
-	cSearchResult := C.searchFaiss(index.Index, C.int(numVectors), (*C.float)(&vectors[0]), C.int(topK))
+func (index *FaissIndex) Search(numVectors int32, topK int32, vectors []float32) *SearchResult {
+	cSearchResult := C.searchFaiss(index.Index, C.int(numVectors), C.int(topK), (*C.float)(&vectors[0]))
 	numResults := topK * numVectors
 
 	cIds := unsafe.Pointer(cSearchResult.ids)
