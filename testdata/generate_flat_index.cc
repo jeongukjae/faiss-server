@@ -25,14 +25,16 @@ https://github.com/facebookresearch/faiss/blob/d68ff421957a02f6137796cb53e292ed2
 // 64-bit int
 using idx_t = faiss::Index::idx_t;
 
-#define INDEX_OUTPUT_FILENAME "random-index.faiss"
+#define INDEX_OUTPUT_FILENAME "testdata/random-index.faiss"
+#define RANDOM_SEED 1234
 
 int main() {
-  int d = 64;     // dimension
+  int d = 8;     // dimension
   int nb = 1000;  // database size
   int nq = 1000;  // nb of queries
 
   std::mt19937 rng;
+  rng.seed(RANDOM_SEED);
   std::uniform_real_distribution<> distrib;
 
   float* xb = new float[d * nb];
@@ -68,6 +70,13 @@ int main() {
     float* D = new float[k * 5];
 
     index.search(5, xb, k, D, I);
+    printf("query vector=\n");
+    for (int i = 0; i < 5; i++) {
+      for (int j = 0; j < d; j++) {
+        printf(" %5g", xb[i * d + j]);
+      }
+      printf("\n");
+    }
 
     // print results
     printf("I=\n");
