@@ -34,15 +34,20 @@ go_binary(
 
 go_library(
     name = "faiss-server_lib",
-    srcs = ["main.go"],
+    srcs = [
+        "main.go",
+        "server.go",
+    ],
     importpath = "github.com/jeongukjae/faiss-server",
     visibility = ["//visibility:private"],
     deps = [
         "//faiss",
         "//protos/faiss_server:service",
         "@com_github_golang_glog//:glog",
+        "@com_github_grpc_ecosystem_go_grpc_prometheus//:go-grpc-prometheus",
         "@com_github_grpc_ecosystem_grpc_gateway_v2//runtime",
         "@com_github_pkg_errors//:errors",
+        "@com_github_prometheus_client_golang//prometheus/promhttp",
         "@org_golang_google_grpc//:go_default_library",
         "@org_golang_google_grpc//codes",
         "@org_golang_google_grpc//status",

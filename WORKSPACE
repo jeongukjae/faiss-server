@@ -13,23 +13,11 @@ http_archive(
     ],
 )
 
-http_archive(
-    name = "bazel_gazelle",
-    sha256 = "de69a09dc70417580aabf20a28619bb3ef60d038470c7cf8442fafcf627c21cb",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.24.0/bazel-gazelle-v0.24.0.tar.gz",
-        "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.24.0/bazel-gazelle-v0.24.0.tar.gz",
-    ],
-)
-
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
 
 go_rules_dependencies()
 
 go_register_toolchains(version = "1.17.2")
-
-gazelle_dependencies()
 
 # ================
 # Rules foreign cc
@@ -57,14 +45,29 @@ http_archive(
 )
 
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+
+rules_proto_dependencies()
+
+rules_proto_toolchains()
+
+# ======
+# for golang
+http_archive(
+    name = "bazel_gazelle",
+    sha256 = "de69a09dc70417580aabf20a28619bb3ef60d038470c7cf8442fafcf627c21cb",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.24.0/bazel-gazelle-v0.24.0.tar.gz",
+        "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.24.0/bazel-gazelle-v0.24.0.tar.gz",
+    ],
+)
+
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
 load("//:deps.bzl", "go_dependencies")
 
 # gazelle:repository_macro deps.bzl%go_dependencies
 go_dependencies()
 
-rules_proto_dependencies()
-
-rules_proto_toolchains()
+gazelle_dependencies()
 
 # ===========
 # build tools
