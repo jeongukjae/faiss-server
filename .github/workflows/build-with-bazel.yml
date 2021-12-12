@@ -22,7 +22,9 @@ jobs:
           sudo apt update && sudo apt install bazel
 
       - name: Install dependencies
-        run: sudo apt install -y libopenblas-dev libomp-7-dev libstdc++6
+        run: |
+          sudo apt install -y libopenblas-dev libomp-7-dev libstdc++6
+          sudo apt remove -y libgomp
 
       - name: Build faiss-server
         run: bazel build //:faiss-server
