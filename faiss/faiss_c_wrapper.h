@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include "faiss/c_api/index_c.h"
+#include "faiss/c_api/Index_c.h"
 #include "faiss/c_api/index_io_c.h"
 
 typedef struct SearchResults {
