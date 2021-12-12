@@ -1,6 +1,9 @@
 # faiss-server
 
-`faiss-server` is gRPC/HTTP Server for ANN using [facebookresearch/faiss](https://github.com/facebookresearch/faiss).
+`faiss-server` is a ANN server using [facebookresearch/faiss](https://github.com/facebookresearch/faiss).
+
+* Supports gRPC/HTTP
+* Prometheus handler for monitoring (`/metrics`)
 
 ## Build faiss-server
 
@@ -31,3 +34,10 @@ bazel run //:gazelle-update-repos
 bazel run //:gazelle
 bazel run //:buildifier
 ```
+
+### TODO
+
+- [ ] Add `AddVector` method
+- [ ] Add `DeleteVector` method
+- [ ] Add `Reload` method
+- [ ] Load from GCS/S3
