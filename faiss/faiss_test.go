@@ -17,10 +17,9 @@ func TestGetMetadata(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, idx)
 
-	metadata := idx.GetMetadata()
-	assert.Equal(t, metadata.Dimension, int32(8))
-	assert.Equal(t, metadata.Ntotal, int32(1000))
-	assert.Equal(t, metadata.MetricType, int32(1))
+	assert.Equal(t, idx.Dimension, int32(8))
+	assert.Equal(t, idx.GetNtotal(), int32(1000))
+	assert.Equal(t, idx.MetricType, int32(1))
 }
 
 func TestSearch(t *testing.T) {

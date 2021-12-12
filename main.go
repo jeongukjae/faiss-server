@@ -11,6 +11,8 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/jeongukjae/faiss-server/faiss"
 	gw "github.com/jeongukjae/faiss-server/protos/faiss/service"
@@ -33,12 +35,28 @@ type faissServer struct {
 }
 
 func (s *faissServer) GetMetadata(ctx context.Context, in *gw.EmptyMessage) (*gw.GetMetadataResponse, error) {
-	metadata := index.GetMetadata()
 	return &gw.GetMetadataResponse{
 		IndexName:  index.Path,
-		Dimension:  metadata.Dimension,
-		MetricType: gw.GetMetadataResponse_MetricType(metadata.MetricType),
-		Ntotal:     metadata.Ntotal,
+		Dimension:  index.Dimension,
+		MetricType: gw.GetMetadataResponse_MetricType(index.MetricType),
+		Ntotal:     index.GetNtotal(),
+	}, nil
+}
+
+func (s *faissServer) Search(ctx context.Context, in *gw.SearchRequest) (*gw.SearchResponse, error) {
+	numElements := int32(len(in.Vectors))
+	if numElements != in.NumVectors*index.Dimension {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			"num elements of vector(%d) != num vectors(%d) * dimension(%d)",
+			numElements, in.NumVectors, index.Dimension,
+		)
+	}
+
+	results := index.Search(in.NumVectors, in.Vectors, in.TopK)
+	return &gw.SearchResponse{
+		Ids:       results.Ids,
+		Distances: results.Distances,
 	}, nil
 }
 

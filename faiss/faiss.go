@@ -12,7 +12,9 @@ import (
 type FaissIndex struct {
 	Index *C.FaissIndex
 
-	Path string
+	Path       string
+	Dimension  int32
+	MetricType int32
 }
 
 type FaissMetadata struct {
@@ -34,9 +36,14 @@ func LoadIndex(path string) (*FaissIndex, error) {
 	if index == nil {
 		return nil, errors.New("Cannot create index")
 	}
+
+	dimension := int32(C.faiss_Index_d(index))
+	metricType := int32(C.faiss_Index_metric_type(index))
 	return &FaissIndex{
-		Index: index,
-		Path:  path,
+		Index:      index,
+		Path:       path,
+		Dimension:  dimension,
+		MetricType: metricType,
 	}, nil
 }
 
@@ -44,20 +51,12 @@ func (index *FaissIndex) Free() {
 	C.free(unsafe.Pointer(index.Index))
 }
 
-func (index *FaissIndex) GetMetadata() *FaissMetadata {
-	cMetadata := C.getMetadata(index.Index)
-	defer C.free(unsafe.Pointer(cMetadata))
-
-	metadata := FaissMetadata{
-		Dimension:  int32(cMetadata.dimension),
-		Ntotal:     int32(cMetadata.ntotal),
-		MetricType: int32(cMetadata.metric_type),
-	}
-
-	return &metadata
+func (index *FaissIndex) GetNtotal() int32 {
+	Ntotal := int32(C.faiss_Index_ntotal(index.Index))
+	return Ntotal
 }
 
-func (index *FaissIndex) Search(numVectors int, vectors []float32, topK int) *SearchResult {
+func (index *FaissIndex) Search(numVectors int32, vectors []float32, topK int32) *SearchResult {
 	cSearchResult := C.searchFaiss(index.Index, C.int(numVectors), (*C.float)(&vectors[0]), C.int(topK))
 	numResults := topK * numVectors
 
@@ -73,7 +72,7 @@ func (index *FaissIndex) Search(numVectors int, vectors []float32, topK int) *Se
 	ids := make([]int64, numResults)
 	distances := make([]float32, numResults)
 
-	for i := 0; i < numResults; i++ {
+	for i := int32(0); i < numResults; i++ {
 		ids[i] = int64(cIdsArray[i])
 		distances[i] = float32(cDistancesArray[i])
 	}

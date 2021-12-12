@@ -28,10 +28,28 @@ message GetMetadataResponse {
     MetricType metric_type = 4;
 }
 
+message SearchRequest {
+    int32 num_vectors = 1;
+    int32 top_k = 2;
+    repeated float vectors = 3;
+}
+
+message SearchResponse {
+    repeated int64 ids = 1;
+    repeated float distances = 2;
+}
+
 service Faiss {
     rpc GetMetadata(EmptyMessage) returns (GetMetadataResponse) {
         option (google.api.http) = {
             get: "/v1/metadata"
+        };
+    }
+
+    rpc Search(SearchRequest) returns (SearchResponse) {
+        option (google.api.http) = {
+            post: "/v1/search"
+            body: "*"
         };
     }
 }
