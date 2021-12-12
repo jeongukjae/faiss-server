@@ -1,1 +1,4 @@
+# for mac
 build --linkopt=-L/usr/local/opt/llvm/lib
+# for docker image
+build --linkopt=-L/usr/lib/llvm-7/lib/
