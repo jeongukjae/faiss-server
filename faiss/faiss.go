@@ -21,6 +21,11 @@ type FaissMetadata struct {
 	MetricType int32
 }
 
+type SearchResult struct {
+	Ids       []int64
+	Distances []float32
+}
+
 func LoadIndex(path string) (*FaissIndex, error) {
 	cPath := C.CString(path)
 	defer C.free(unsafe.Pointer(cPath))
@@ -50,4 +55,31 @@ func (index *FaissIndex) GetMetadata() *FaissMetadata {
 	}
 
 	return &metadata
+}
+
+func (index *FaissIndex) Search(numVectors int, vectors []float32, topK int) *SearchResult {
+	cSearchResult := C.searchFaiss(index.Index, C.int(numVectors), (*C.float)(&vectors[0]), C.int(topK))
+	numResults := topK * numVectors
+
+	cIds := unsafe.Pointer(cSearchResult.ids)
+	cDistances := unsafe.Pointer(cSearchResult.distances)
+
+	cIdsArray := (*[1 << 30]C.int64_t)(cIds)
+	cDistancesArray := (*[1 << 30]C.float)(cDistances)
+
+	defer C.free(cIds)
+	defer C.free(cDistances)
+
+	ids := make([]int64, numResults)
+	distances := make([]float32, numResults)
+
+	for i := 0; i < numResults; i++ {
+		ids[i] = int64(cIdsArray[i])
+		distances[i] = float32(cDistancesArray[i])
+	}
+
+	return &SearchResult{
+		Ids:       ids,
+		Distances: distances,
+	}
 }

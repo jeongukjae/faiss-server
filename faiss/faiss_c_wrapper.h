@@ -11,10 +11,18 @@ typedef struct FaissMetadata {
     FaissMetricType metric_type;
 } FaissMetadata;
 
+typedef struct SearchResults {
+    int64_t* ids;
+    float* distances;
+    int isError;
+} SearchResults;
+
 // load index from filepath
 FaissIndex* loadIndex(const char*);
 
 // get metadata using index
-FaissMetadata* getMetadata(FaissIndex*);
+FaissMetadata* getMetadata(const FaissIndex*);
+
+SearchResults searchFaiss(const FaissIndex* index, int numVectors, const float* vectors, int topK);
 
 #endif  // __FAISS_WRAPPER_H__

@@ -8,7 +8,7 @@ FaissIndex* loadIndex(const char* path) {
     return index;
 }
 
-FaissMetadata* getMetadata(FaissIndex* index) {
+FaissMetadata* getMetadata(const FaissIndex* index) {
     FaissMetadata *metadata;
     metadata = malloc(sizeof(FaissMetadata));
 
@@ -17,4 +17,18 @@ FaissMetadata* getMetadata(FaissIndex* index) {
     metadata->metric_type = faiss_Index_metric_type(index);
 
     return metadata;
+}
+
+SearchResults searchFaiss(const FaissIndex* index, int numVectors, const float* vectors, int topK) {
+    idx_t* ids = malloc(sizeof(idx_t) * topK * numVectors);
+    float* distances = malloc(sizeof(float) * topK * numVectors);
+
+    int result = faiss_Index_search(index, numVectors, vectors, topK, distances, ids);
+
+    SearchResults searchResult = {
+        ids,
+        distances,
+        result,
+    };
+    return searchResult;
 }
