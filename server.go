@@ -18,7 +18,7 @@ import (
 	gw "github.com/jeongukjae/faiss-server/protos/faiss/service"
 )
 
-func runGrpcServer(endpoint string, faissPath string) error {
+func runGrpcServer(endpoint string, faissPath string, withReloadMethod bool) error {
 	lis, err := net.Listen("tcp", endpoint)
 	if err != nil {
 		return errors.WithStack(err)
@@ -34,7 +34,7 @@ func runGrpcServer(endpoint string, faissPath string) error {
 		grpc.StreamInterceptor(grpc_prometheus.StreamServerInterceptor),
 		grpc.UnaryInterceptor(grpc_prometheus.UnaryServerInterceptor),
 	)
-	fs := &faissServer{Index: index}
+	fs := &faissServer{Index: index, WithReloadMethod: withReloadMethod}
 	gw.RegisterFaissServer(s, fs)
 	grpc_prometheus.Register(s)
 	go func() {
@@ -78,7 +78,7 @@ func RunServer(faissPath string, grpcEndpoint string, httpEndpoint string, withR
 		glog.Fatal("You should pass faiss index path (-faiss_index option)")
 	}
 
-	if err := runGrpcServer(grpcEndpoint, faissPath); err != nil {
+	if err := runGrpcServer(grpcEndpoint, faissPath, withReloadMethod); err != nil {
 		glog.Fatal(err)
 	}
 

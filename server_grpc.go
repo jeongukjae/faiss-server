@@ -14,7 +14,8 @@ import (
 type faissServer struct {
 	gw.UnimplementedFaissServer
 
-	Index *faiss.FaissIndex
+	WithReloadMethod bool
+	Index            *faiss.FaissIndex
 }
 
 func (s *faissServer) GetMetadata(ctx context.Context, in *gw.EmptyMessage) (*gw.GetMetadataResponse, error) {
@@ -87,6 +88,10 @@ func (s *faissServer) RemoveVectors(ctx context.Context, in *gw.RemoveVectorsReq
 }
 
 func (s *faissServer) Reload(ctx context.Context, in *gw.EmptyMessage) (*gw.EmptyMessage, error) {
+	if !s.WithReloadMethod {
+		return nil, status.Error(codes.PermissionDenied, "Reload method is disabled.")
+	}
+
 	indexPath := s.Index.Path
 	glog.Info("Reload triggered, remove old index...")
 	s.Index.Free()
