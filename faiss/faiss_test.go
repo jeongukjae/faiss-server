@@ -34,7 +34,7 @@ func TestSearch(t *testing.T) {
 		0.396782, 0.45273, 0.538148, 0.790622, 0.465836, 0.435332, 0.569479, 0.969259,
 		0.0445562, 0.54812, 0.462577, 0.376472, 0.327912, 0.813529, 0.646552, 0.0474265,
 	}
-	results := idx.Search(5, queryVectors, 4)
+	results := idx.Search(5, 4, queryVectors)
 
 	assert.ElementsMatch(t, []int64{
 		0, 372, 74, 425,
