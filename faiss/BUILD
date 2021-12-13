@@ -15,6 +15,7 @@ cc_library(
     ],
     deps = [
         "@com_github_facebookresearch_faiss//:faiss_c",
+        "@com_github_googleapis_google_cloud_cpp//:storage",
     ],
 )
 

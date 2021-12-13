@@ -1,0 +1,13 @@
+diff --git a/bazel/curl.BUILD b/bazel/curl.BUILD
+index 95f1ea842..ef9d007d4 100644
+--- a/bazel/curl.BUILD
++++ b/bazel/curl.BUILD
+@@ -440,7 +440,7 @@ cc_library(
+     visibility = ["//visibility:public"],
+     deps = [
+         # Use the same version of zlib that gRPC does.
+-        "//external:madler_zlib",
++        "@zlib",
+         ":define-ca-bundle-location",
+     ] + select({
+         ":windows": [],

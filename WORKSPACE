@@ -32,6 +32,29 @@ load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_depende
 
 rules_foreign_cc_dependencies()
 
+# ================
+# GCS dependencies
+http_archive(
+    name = "zlib",
+    build_file = "//third_party:zlib.BUILD",
+    sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
+    strip_prefix = "zlib-1.2.11",
+    url = "https://zlib.net/zlib-1.2.11.tar.gz",
+)
+
+http_archive(
+    name = "com_github_googleapis_google_cloud_cpp",
+    patch_args = ["-p1"],
+    patches = ["//third_party:google_cloud_cpp.patch"],
+    sha256 = "f38ae4ab6f2ed7579a7ceb5d0b32ed04097da07bc898907ed01c8d840c2bdbce",
+    strip_prefix = "google-cloud-cpp-1.34.1",
+    url = "https://github.com/googleapis/google-cloud-cpp/archive/v1.34.1.tar.gz",
+)
+
+load("@com_github_googleapis_google_cloud_cpp//bazel:google_cloud_cpp_deps.bzl", "google_cloud_cpp_deps")
+
+google_cloud_cpp_deps()
+
 # ===========
 # rules proto
 http_archive(
