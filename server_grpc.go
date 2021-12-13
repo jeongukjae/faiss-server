@@ -2,13 +2,7 @@ package main
 
 import (
 	"context"
-	"log"
-	"net"
 
-	"github.com/golang/glog"
-	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
-	"github.com/pkg/errors"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -105,32 +99,4 @@ func (s *faissServer) AddVectorsWithIds(ctx context.Context, in *gw.AddVectorsWi
 		return nil, status.Errorf(codes.Internal, "%s. This method is not supported by all indexes.", err.Error())
 	}
 	return &gw.EmptyMessage{}, nil
-}
-
-func runGrpcServer(endpoint string, faissPath string) error {
-	lis, err := net.Listen("tcp", endpoint)
-	if err != nil {
-		return errors.WithStack(err)
-	}
-
-	glog.Info("Loading faiss index from ", faissPath)
-	index, err := faiss.LoadIndex(faissPath)
-	if err != nil {
-		return errors.WithStack(err)
-	}
-
-	s := grpc.NewServer(
-		grpc.StreamInterceptor(grpc_prometheus.StreamServerInterceptor),
-		grpc.UnaryInterceptor(grpc_prometheus.UnaryServerInterceptor),
-	)
-	fs := &faissServer{Index: index}
-	gw.RegisterFaissServer(s, fs)
-	grpc_prometheus.Register(s)
-	go func() {
-		defer fs.Index.Free()
-		log.Fatalln(s.Serve(lis))
-	}()
-	glog.Info("Serve grpc server at ", endpoint)
-
-	return nil
 }
