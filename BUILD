@@ -37,6 +37,7 @@ go_library(
     srcs = [
         "main.go",
         "server.go",
+        "server_grpc.go",
     ],
     importpath = "github.com/jeongukjae/faiss-server",
     visibility = ["//visibility:private"],
