@@ -54,6 +54,14 @@ message AddVectorsWithIdsRequest {
     repeated int64 ids = 3;
 }
 
+message RemoveVectorsRequest {
+    repeated int64 ids = 1;
+}
+
+message RemoveVectorsResponse {
+    int32 num_removed = 1;
+}
+
 service Faiss {
     rpc GetMetadata(EmptyMessage) returns (GetMetadataResponse) {
         option (google.api.http) = {
@@ -78,6 +86,13 @@ service Faiss {
     rpc AddVectorsWithIds(AddVectorsWithIdsRequest) returns (EmptyMessage) {
         option (google.api.http) = {
             post: "/v1/add_vectors_with_ids"
+            body: "*"
+        };
+    }
+
+    rpc RemoveVectors(RemoveVectorsRequest) returns (RemoveVectorsResponse) {
+        option (google.api.http) = {
+            post: "/v1/remove_vectors"
             body: "*"
         };
     }

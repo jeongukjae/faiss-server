@@ -26,7 +26,7 @@ SearchResults searchFaiss(const FaissIndex* index, int numVectors, int topK,
   return searchResult;
 }
 
-int deleteVectors(FaissIndex* index, int numIds, const int64_t* ids) {
+int removeVectors(FaissIndex* index, int numIds, const int64_t* ids) {
   faiss::IDSelectorArray selector(numIds, ids);
   size_t nRemoved;
   int code = faiss_Index_remove_ids(

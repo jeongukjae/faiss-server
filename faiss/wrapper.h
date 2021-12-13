@@ -18,6 +18,6 @@ FaissIndex* loadIndex(const char*);
 SearchResults searchFaiss(const FaissIndex* index, int numVectors, int topK,
                           const float* vectors);
 
-int deleteVectors(FaissIndex* index, int numIds, const int64_t* ids);
+int removeVectors(FaissIndex* index, int numIds, const int64_t* ids);
 
 #endif  // __FAISS_WRAPPER_H__

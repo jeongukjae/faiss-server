@@ -102,3 +102,12 @@ func (index *FaissIndex) AddVectorsWithIds(numVectors int32, vectors []float32, 
 	}
 	return nil
 }
+
+func (index *FaissIndex) RemoveVectors(ids []int64) (int, error) {
+	numRemovedOrCode := C.deleteVectors(index.Index, C.int(len(ids)), (*C.float)(&ids[0]))
+	numRemovedOrCode = int(numRemovedOrCode)
+	if numRemovedOrCode == -1 {
+		return -1, errors.New("Cannot remove vectors")
+	}
+	return numRemovedOrCode, nil
+}

@@ -100,3 +100,15 @@ func (s *faissServer) AddVectorsWithIds(ctx context.Context, in *gw.AddVectorsWi
 	}
 	return &gw.EmptyMessage{}, nil
 }
+
+func (s *faissServer) RemoveVectors(ctx context.Context, in *gw.RemoveVectorsRequest) (*gw.RemoveVectorsResponse, error) {
+	if len(in.Ids) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "num elements of ids = 0")
+	}
+	numRemoved, err := s.Index.RemoveVectors(in.Ids)
+
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+	return &gw.RemoveVectorsResponse{NumRemoved: numRemoved}, nil
+}
