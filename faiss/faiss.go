@@ -51,8 +51,8 @@ func (index *FaissIndex) Free() {
 	C.faiss_Index_free(index.Index)
 }
 
-func (index *FaissIndex) GetNtotal() int32 {
-	Ntotal := int32(C.faiss_Index_ntotal(index.Index))
+func (index *FaissIndex) GetNtotal() int64 {
+	Ntotal := int64(C.faiss_Index_ntotal(index.Index))
 	return Ntotal
 }
 
@@ -81,4 +81,24 @@ func (index *FaissIndex) Search(numVectors int32, topK int32, vectors []float32)
 		Ids:       ids,
 		Distances: distances,
 	}
+}
+
+func (index *FaissIndex) AddVectors(numVectors int32, vectors []float32) ([]int64, error) {
+	ids := make([]int64, numVectors)
+	for i := range ids {
+		ids[i] = index.GetNtotal() + int64(i)
+	}
+	code := C.faiss_Index_add(index.Index, C.idx_t(numVectors), (*C.float)(&vectors[0]))
+	if int(code) != 0 {
+		return nil, errors.New("Cannot add vectors")
+	}
+	return ids, nil
+}
+
+func (index *FaissIndex) AddVectorsWithIds(numVectors int32, vectors []float32, ids []int64) error {
+	code := C.faiss_Index_add_with_ids(index.Index, C.idx_t(numVectors), (*C.float)(&vectors[0]), (*C.idx_t)(&ids[0]))
+	if int(code) != 0 {
+		return errors.New("Cannot add vectors")
+	}
+	return nil
 }
