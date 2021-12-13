@@ -7,7 +7,7 @@
 
 ## Usage
 
-* Tag List: <http://ghcr.io/jeongukjae/faiss-server>
+* Tag List: <https://ghcr.io/jeongukjae/faiss-server>
 * API Specification: [service proto file (protos/faiss_server/service.proto)](protos/faiss_server/service.proto)
 
 ```bash
