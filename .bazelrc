@@ -1,4 +1,7 @@
-# for mac
-build --linkopt=-L/usr/local/opt/llvm/lib
-# for docker image
-build --linkopt=-L/usr/lib/llvm-7/lib/
+build --enable_platform_specific_config
+
+# for macOS (local)
+build:macos --linkopt=-L/usr/local/opt/llvm/lib
+
+# for linux build (docker)
+build:linux --linkopt=-L/usr/lib/llvm-7/lib/
