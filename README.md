@@ -34,6 +34,8 @@ Usage of /faiss-server:
         log level for V logs
   -vmodule value
         comma-separated list of pattern=N settings for file-filtered logging
+  -with_reload_method
+        enable reload method
 $ docker run --rm -it \
     -v `pwd`/testdata/random-index.faiss:/random-index.faiss:ro \
     ghcr.io/jeongukjae/faiss-server \
@@ -76,5 +78,4 @@ bazel run //:buildifier
 
 ### TODO
 
-- [ ] Add `Reload` method
 - [ ] Load from GCS/S3
