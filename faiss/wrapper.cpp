@@ -1,4 +1,4 @@
-#include "faiss_c_wrapper.h"
+#include "wrapper.h"
 
 #include <faiss/impl/AuxIndexStructures.h>
 
