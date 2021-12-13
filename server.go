@@ -73,7 +73,7 @@ func runGrpcGateway(grpcEndpoint string, httpEndpoint string) error {
 	return http.ListenAndServe(httpEndpoint, mux)
 }
 
-func RunServer(faissPath string, grpcEndpoint string, httpEndpoint string) {
+func RunServer(faissPath string, grpcEndpoint string, httpEndpoint string, withReloadMethod bool) {
 	if faissPath == "" {
 		glog.Fatal("You should pass faiss index path (-faiss_index option)")
 	}

@@ -96,4 +96,11 @@ service Faiss {
             body: "*"
         };
     }
+
+    rpc Reload(EmptyMessage) returns (EmptyMessage) {
+        option (google.api.http) = {
+            post: "/v1/reload"
+            body: "*"
+        };
+    }
 }

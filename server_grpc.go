@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 
+	"github.com/golang/glog"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -83,6 +84,22 @@ func (s *faissServer) RemoveVectors(ctx context.Context, in *gw.RemoveVectorsReq
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 	return &gw.RemoveVectorsResponse{NumRemoved: numRemoved}, nil
+}
+
+func (s *faissServer) Reload(ctx context.Context, in *gw.EmptyMessage) (*gw.EmptyMessage, error) {
+	indexPath := s.Index.Path
+	glog.Info("Reload triggered, remove old index...")
+	s.Index.Free()
+
+	glog.Info("Load new index from ", indexPath, "...")
+	newIndex, err := faiss.LoadIndex(indexPath)
+	if err != nil {
+		glog.Fatal("Cannot load index again!!")
+		return nil, status.Errorf(codes.Internal, "Cannot reload faiss")
+	}
+	s.Index = newIndex
+	glog.Info("Reloaded index successfully")
+	return &gw.EmptyMessage{}, nil
 }
 
 func checkVectorDimension(vectors []float32, numVectors int32, dimension int32) error {
