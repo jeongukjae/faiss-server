@@ -3,7 +3,7 @@ package(default_visibility = ["//visibility:public"])
 cc_binary(
     name = "generate_flat_index",
     testonly = True,
-    srcs = ["generate_flat_index.cc"],
+    srcs = ["generate_flat_index.cpp"],
     linkopts = [
         "-lblas",
         "-llapack",
