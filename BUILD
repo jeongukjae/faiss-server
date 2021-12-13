@@ -53,3 +53,15 @@ go_library(
         "@org_golang_google_grpc//status",
     ],
 )
+
+cc_binary(
+    name = "generate_testdata",
+    testonly = True,
+    srcs = ["generate_testdata.cpp"],
+    linkopts = [
+        "-lblas",
+        "-llapack",
+        "-lomp",
+    ],
+    deps = ["@com_github_facebookresearch_faiss//:faiss_c"],
+)
