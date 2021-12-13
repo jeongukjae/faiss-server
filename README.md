@@ -75,7 +75,6 @@ bazel run //:buildifier
 
 ### TODO
 
-- [ ] Add `AddVector` method
 - [ ] Add `DeleteVector` method
 - [ ] Add `Reload` method
 - [ ] Load from GCS/S3
