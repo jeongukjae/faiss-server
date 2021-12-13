@@ -7,6 +7,9 @@
 
 ## Usage
 
+* Tag List: <http://ghcr.io/jeongukjae/faiss-server>
+* API Specification: [service proto file (protos/faiss_server/service.proto)](protos/faiss_server/service.proto)
+
 ```bash
 $ docker run --rm -it ghcr.io/jeongukjae/faiss-server --help
 Usage of /faiss-server:
@@ -39,8 +42,6 @@ I1213 02:27:32.132563       1 server.go:70] Serve grpc server at 0.0.0.0:8000
 I1213 02:27:32.132648       1 server.go:83] Register grpc gateway server at 0.0.0.0:8000
 I1213 02:27:32.133806       1 server.go:98] Serve http server at 0.0.0.0:8001
 ```
-
-Check out the tags in [this link (GitHub Pkgs)](https://github.com/jeongukjae/faiss-server/pkgs/container/faiss-server).
 
 ## Build faiss-server
 
