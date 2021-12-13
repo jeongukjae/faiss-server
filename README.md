@@ -11,6 +11,7 @@
 * API Specification: [service proto file (protos/faiss_server/service.proto)](protos/faiss_server/service.proto)
 
 ```bash
+$ docker pull ghcr.io/jeongukjae/faiss-server
 $ docker run --rm -it ghcr.io/jeongukjae/faiss-server --help
 Usage of /faiss-server:
   -alsologtostderr
@@ -75,6 +76,5 @@ bazel run //:buildifier
 
 ### TODO
 
-- [ ] Add `DeleteVector` method
 - [ ] Add `Reload` method
 - [ ] Load from GCS/S3
