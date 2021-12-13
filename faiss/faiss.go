@@ -1,7 +1,7 @@
 package faiss
 
 /*
-#include "faiss/faiss_c_wrapper.h"
+#include "faiss/wrapper.h"
 */
 import "C"
 import (
@@ -103,9 +103,8 @@ func (index *FaissIndex) AddVectorsWithIds(numVectors int32, vectors []float32, 
 	return nil
 }
 
-func (index *FaissIndex) RemoveVectors(ids []int64) (int, error) {
-	numRemovedOrCode := C.deleteVectors(index.Index, C.int(len(ids)), (*C.float)(&ids[0]))
-	numRemovedOrCode = int(numRemovedOrCode)
+func (index *FaissIndex) RemoveVectors(ids []int64) (int32, error) {
+	numRemovedOrCode := int32(C.removeVectors(index.Index, C.int(len(ids)), (*C.idx_t)(&ids[0])))
 	if numRemovedOrCode == -1 {
 		return -1, errors.New("Cannot remove vectors")
 	}

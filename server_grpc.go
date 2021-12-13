@@ -26,19 +26,9 @@ func (s *faissServer) GetMetadata(ctx context.Context, in *gw.EmptyMessage) (*gw
 }
 
 func (s *faissServer) Search(ctx context.Context, in *gw.SearchRequest) (*gw.SearchResponse, error) {
-	numElements := int32(len(in.Vectors))
-	if numElements != in.NumVectors*s.Index.Dimension {
-		return nil, status.Errorf(
-			codes.InvalidArgument,
-			"num elements of vector(%d) != num vectors(%d) * dimension(%d)",
-			numElements, in.NumVectors, s.Index.Dimension,
-		)
+	if err := checkVectorDimension(in.Vectors, in.NumVectors, s.Index.Dimension); err != nil {
+		return nil, err
 	}
-
-	if numElements == 0 {
-		return nil, status.Errorf(codes.InvalidArgument, "num elements of vector = 0")
-	}
-
 	if in.TopK == 0 {
 		return nil, status.Errorf(codes.InvalidArgument, "top k argument = 0")
 	}
@@ -51,17 +41,8 @@ func (s *faissServer) Search(ctx context.Context, in *gw.SearchRequest) (*gw.Sea
 }
 
 func (s *faissServer) AddVectors(ctx context.Context, in *gw.AddVectorsRequest) (*gw.AddVectorsResponse, error) {
-	numElements := int32(len(in.Vectors))
-	if numElements != in.NumVectors*s.Index.Dimension {
-		return nil, status.Errorf(
-			codes.InvalidArgument,
-			"num elements of vector(%d) != num vectors(%d) * dimension(%d)",
-			numElements, in.NumVectors, s.Index.Dimension,
-		)
-	}
-
-	if numElements == 0 {
-		return nil, status.Errorf(codes.InvalidArgument, "num elements of vector = 0")
+	if err := checkVectorDimension(in.Vectors, in.NumVectors, s.Index.Dimension); err != nil {
+		return nil, err
 	}
 
 	ids, err := s.Index.AddVectors(in.NumVectors, in.Vectors)
@@ -72,20 +53,11 @@ func (s *faissServer) AddVectors(ctx context.Context, in *gw.AddVectorsRequest) 
 }
 
 func (s *faissServer) AddVectorsWithIds(ctx context.Context, in *gw.AddVectorsWithIdsRequest) (*gw.EmptyMessage, error) {
-	numElements := int32(len(in.Vectors))
-	if numElements != in.NumVectors*s.Index.Dimension {
-		return nil, status.Errorf(
-			codes.InvalidArgument,
-			"num elements of vector(%d) != num vectors(%d) * dimension(%d)",
-			numElements, in.NumVectors, s.Index.Dimension,
-		)
+	if err := checkVectorDimension(in.Vectors, in.NumVectors, s.Index.Dimension); err != nil {
+		return nil, err
 	}
 
-	if numElements == 0 {
-		return nil, status.Errorf(codes.InvalidArgument, "num elements of vector = 0")
-	}
-
-	numElements = int32(len(in.Ids))
+	numElements := int32(len(in.Ids))
 	if numElements != in.NumVectors {
 		return nil, status.Errorf(
 			codes.InvalidArgument,
@@ -111,4 +83,21 @@ func (s *faissServer) RemoveVectors(ctx context.Context, in *gw.RemoveVectorsReq
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 	return &gw.RemoveVectorsResponse{NumRemoved: numRemoved}, nil
+}
+
+func checkVectorDimension(vectors []float32, numVectors int32, dimension int32) error {
+	numElements := int32(len(vectors))
+	if numElements != numVectors*dimension {
+		return status.Errorf(
+			codes.InvalidArgument,
+			"num elements of vector(%d) != num vectors(%d) * dimension(%d)",
+			numElements, numVectors, dimension,
+		)
+	}
+
+	if numElements == 0 {
+		return status.Errorf(codes.InvalidArgument, "num elements of vector = 0")
+	}
+
+	return nil
 }
