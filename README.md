@@ -4,6 +4,7 @@
 
 * Supports gRPC/HTTP
 * Prometheus handler for monitoring (`/metrics`)
+* Deploy with Faiss index stored in GCS
 
 ## Usage
 
@@ -78,4 +79,4 @@ bazel run //:buildifier
 
 ### TODO
 
-- [ ] Load from GCS/S3
+- [ ] Load from S3
