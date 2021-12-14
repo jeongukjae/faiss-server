@@ -18,7 +18,7 @@ func TestGetMetadata(t *testing.T) {
 	assert.NotNil(t, idx)
 
 	assert.Equal(t, idx.Dimension, int32(8))
-	assert.Equal(t, idx.GetNtotal(), int32(1000))
+	assert.Equal(t, idx.GetNtotal(), int64(1000))
 	assert.Equal(t, idx.MetricType, int32(1))
 }
 

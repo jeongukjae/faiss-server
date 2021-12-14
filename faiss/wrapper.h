@@ -2,6 +2,8 @@
 #define __FAISS_WRAPPER_H__
 
 #ifdef __cplusplus
+#include <string>
+
 extern "C" {
 #endif
 
@@ -16,6 +18,8 @@ typedef struct SearchResults {
   int isError;
 } SearchResults;
 
+const char* getError();
+
 // load index from filepath
 FaissIndex* loadIndex(const char*);
 
@@ -26,6 +30,12 @@ int removeVectors(FaissIndex* index, int numIds, const int64_t* ids);
 
 #ifdef __cplusplus
 }
+
+// for testing purpose
+// below functions are not exposed for cgo binding.
+
+void parseUrl(const std::string url, std::string& bucket,
+              std::string& blobPath);
 #endif
 
 #endif  // __FAISS_WRAPPER_H__

@@ -13,9 +13,19 @@ cc_library(
         "-llapack",
         "-lomp",
     ],
+    linkstatic = 1,
     deps = [
         "@com_github_facebookresearch_faiss//:faiss_c",
         "@com_github_googleapis_google_cloud_cpp//:storage",
+    ],
+)
+
+cc_test(
+    name = "faiss_wrapper_test",
+    srcs = ["wrapper_test.cpp"],
+    deps = [
+        ":faiss_wrapper",
+        "@com_google_googletest//:gtest_main",
     ],
 )
 

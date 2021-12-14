@@ -6,6 +6,7 @@ package faiss
 import "C"
 import (
 	"errors"
+	"fmt"
 	"unsafe"
 )
 
@@ -34,7 +35,7 @@ func LoadIndex(path string) (*FaissIndex, error) {
 
 	index := C.loadIndex(cPath)
 	if index == nil {
-		return nil, errors.New("Cannot create index")
+		return nil, errors.New(fmt.Sprintf("Cannot create index, %s", C.GoString(C.getError())))
 	}
 
 	dimension := int32(C.faiss_Index_d(index))

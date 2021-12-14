@@ -32,6 +32,15 @@ load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_depende
 
 rules_foreign_cc_dependencies()
 
+# ==============
+# CC dependencies
+http_archive(
+    name = "com_google_googletest",
+    sha256 = "0eab4e490851b09de09e815954554459606edb1d775c644f4a31ff6b331c524b",
+    strip_prefix = "googletest-e2f3978937c0244508135f126e2617a7734a68be",
+    urls = ["https://github.com/google/googletest/archive/e2f3978937c0244508135f126e2617a7734a68be.zip"],
+)
+
 # ================
 # GCS dependencies
 http_archive(
